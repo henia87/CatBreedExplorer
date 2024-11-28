@@ -1,0 +1,32 @@
+#suggestions-box {
+    position: relative;
+    border-radius: 0.5em;
+    z-index: 1;
+  }
+
+  #suggestions {
+    position: absolute;
+    background-color: whitesmoke;
+    border-radius: 10px;
+    border: 1px solid black;
+    border-top: transparent;
+    width: 100%;
+  }
+
+  .suggestions-item {
+    text-decoration: none;
+    color: black;
+    background-color: whitesmoke;
+    border-radius: 10px;
+    padding-left: 10px;
+    cursor: pointer;
+  }
+
+  .suggestions-item:hover {
+    background-color: lightgray;
+  }
+
+  .suggestions-item-button {
+    background-color: transparent;
+    border: none;
+  }
