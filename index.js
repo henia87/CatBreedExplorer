@@ -1,9 +1,8 @@
-import { api_key } from "./constants.js";
 import { initSearch } from "./search.js";
 
 async function fetchRandomImages() {
     try {
-        const response = await fetch(`https://api.thecatapi.com/v1/images/search?limit=100&size=full&api_key=${api_key}`);
+        const response = await fetch("/.netlify/functions/fetch-cat-images");
         if(!response.ok) {
             throw new Error(`Failed to fetch data, status: ${response.status}`);
         }

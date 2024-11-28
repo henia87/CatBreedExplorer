@@ -1,4 +1,3 @@
-import { api_key } from "./constants.js";
 import { initSearch } from "./search.js";
 
 let url = window.location.search;
@@ -10,38 +9,20 @@ async function fetchUniqueBreed() {
     spinner.classList.remove("d-none");
 
     try {
-        const response = await fetch(`https://api.thecatapi.com/v1/breeds/${breedId}?api_key=${api_key}`);
+        const response = await fetch(`/.netlify/functions/fetch-unique-breed?breed=${breedId}`);
         if(!response.ok) {
+            console.error(`Failed to fetch data, status: ${response.status}`);
             throw new Error(`Failed to fetch data, status: ${response.status}`);
         }
         const data = await response.json();
-        displayBreedInfo(data);
+        console.log("Fetched data: ", data);
+        displayBreedInfo(data.breed);
 
-        const imgUrl = await fetchBreedImage(data);
+        const imgUrl = data.imageUrl || "./images/cat-line-icon.jpg";
         updateImage(imgUrl);
     }   
     catch(error) {  
         console.error(`Error fetching data: ${error}`);
-        showError();
-    }
-}
-
-async function fetchBreedImage(breed) {
-    if(!breed.reference_image_id) {
-        console.warn(`No reference_image_id found for breed: ${breed.name}`);
-        return "./images/cat-line-icon.jpg";
-    }
-    
-    try {
-        const response = await fetch(`https://api.thecatapi.com/v1/images/${breed.reference_image_id}?api_key=${api_key}`);
-        if(!response.ok) {
-            throw new Error(`Failed to fetch data, status: ${response.status}`);
-        }
-        const data = await response.json();
-        return data.url || "./images/cat-line-icon.jpg";;
-    }
-    catch(error) {
-        console.error(`Error fetching breed image: ${error}`);
         showError();
     }
 }
@@ -51,7 +32,7 @@ function updateImage(imgUrl) {
     const spinner = document.getElementById("spinner");
 
     if(imgElement && imgUrl) {
-        imgElement.src = imgUrl || "./images/cat-line-icon.jpg";
+        imgElement.src = imgUrl ? imgUrl : "./images/cat-line-icon.jpg";
 
         imgElement.onload = () => {
             spinner.classList.add("d-none");

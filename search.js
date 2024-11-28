@@ -1,10 +1,8 @@
-import { api_key } from "./constants.js";
-
 export let breeds = [];
 
 export async function fetchBreedNames() {
     try {
-        const response = await fetch(`https://api.thecatapi.com/v1/breeds?api_key=${api_key}`);
+        const response = await fetch("/.netlify/functions/fetch-cat-breeds");
         if(!response.ok) {
             throw new Error(`Failed to fetch breeds, status: ${response.status}`);
         }
